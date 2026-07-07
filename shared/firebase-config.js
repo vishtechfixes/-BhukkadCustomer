@@ -7,7 +7,8 @@ import {
   orderBy, onSnapshot, increment, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import {
-  getAuth, RecaptchaVerifier, signInWithPhoneNumber
+  getAuth, setPersistence, browserLocalPersistence,
+  RecaptchaVerifier, signInWithPhoneNumber
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -21,9 +22,11 @@ const firebaseConfig = {
 };
 
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-
 export const db   = getFirestore(app);
 export const auth = getAuth(app);
+
+setPersistence(auth, browserLocalPersistence)
+  .catch(e => console.warn('Persistence:', e));
 
 export {
   doc, collection, getDoc, getDocs,
@@ -32,14 +35,6 @@ export {
   increment, serverTimestamp
 };
 export { RecaptchaVerifier, signInWithPhoneNumber };
-
-
-
-
-
-
-
-
 
 
 
